@@ -11,6 +11,9 @@ import com.maxcmiller.war.util.RankManager;
 
 public class Main extends JavaPlugin {
 	
+	/*
+	 * Creates logger object to print to console
+	 */
 	public final Logger logger = Logger.getLogger("Minecraft");
 	
 	/*
