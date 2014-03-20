@@ -1,7 +1,8 @@
 package com.maxcmiller.war.util;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.maxcmiller.war.Main;
@@ -9,36 +10,35 @@ import com.maxcmiller.war.Team;
 
 public class MatchManager {
 
-	private Main main;
+	public Main main;
 	public MatchManager(Main instance) {
 		this.main = instance;
 	}
 	
 	/*
-	 * Creates the two base locations; one for each team
+	 * Creates an list of all the teams for future access
 	 */
-	Location blueBase = new Location(
-			this.main.getServer().getWorld(this.main.getConfig().getString("world")), 
-			this.main.getConfig().getDouble("bases.blue.x"), 
-			this.main.getConfig().getDouble("bases.blue.y"), 
-			this.main.getConfig().getDouble("bases.blue.z"));
-	Location redBase = new Location(
-			this.main.getServer().getWorld(this.main.getConfig().getString("world")), 
-			this.main.getConfig().getDouble("bases.red.x"), 
-			this.main.getConfig().getDouble("bases.red.y"), 
-			this.main.getConfig().getDouble("bases.red.z"));
+	private ArrayList<Team> teams = new ArrayList<Team>();
 	
 	/*
 	 * Creates two teams
 	 */
-	public Team blue = new Team("blue");
-	public Team red = new Team("red");
+	private Team blue = new Team("blue", this);
+	private Team red = new Team("red", this);
+	
+	/**
+	 * Gets the ArrayList of all current teams
+	 */
+	public ArrayList<Team> getTeams() {
+		return teams;
+	}
 	
 	/**
 	 * Places players in teams, teleports them to their base, starts the match
 	 */
 	public void startMatch() {
 		placePlayersInTeams();
+		teleportTeamsToBase();
 	}
 	
 	/**
@@ -62,13 +62,11 @@ public class MatchManager {
 	 * Telports teams to their base as defined in config
 	 */
 	public void teleportTeamsToBase() {
-		for (String target : blue.getMembers()) {
-			Player player = Bukkit.getPlayerExact(target);
-			player.teleport(blueBase);
-		}
-		for (String target : red.getMembers()) {
-			Player player = Bukkit.getPlayerExact(target);
-			player.teleport(redBase);
+		for (Team team : this.getTeams()) {
+			for (String target : team.getMembers()) {
+				Player player = Bukkit.getPlayerExact(target);
+				player.teleport(team.getBase());
+			}
 		}
 	}
 	
@@ -76,10 +74,11 @@ public class MatchManager {
 	 * Gets the team the player is in
 	 */
 	public Team getPlayerTeam(String target) {
-		if (blue.getMembers().contains(target)) {
-			return blue;
-		} else {
-			return red;
+		for (Team team : this.getTeams()) {
+			if (team.getMembers().contains(target)) {
+				return team;
+			}
 		}
+		return null;
 	}
 }
