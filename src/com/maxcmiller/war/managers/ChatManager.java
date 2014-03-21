@@ -1,4 +1,4 @@
-package com.maxcmiller.war.util;
+package com.maxcmiller.war.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

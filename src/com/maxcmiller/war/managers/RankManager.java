@@ -1,4 +1,4 @@
-package com.maxcmiller.war.util;
+package com.maxcmiller.war.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

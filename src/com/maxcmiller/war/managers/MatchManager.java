@@ -1,4 +1,4 @@
-package com.maxcmiller.war.util;
+package com.maxcmiller.war.managers;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,14 @@ public class MatchManager {
 
 	private static MatchManager instance = new MatchManager();
 	
+	/*
+	 * Creates an list of all the teams for future access
+	 */
+	private ArrayList<Team> teams = new ArrayList<Team>();
+	
+	/*
+	 * Creates two new teams (red and blue)
+	 */
 	private Team blue = new Team("blue");
 	private Team red = new Team("red");
 	
@@ -20,12 +28,7 @@ public class MatchManager {
 	public static MatchManager getInstance() {
 		return instance;
 	}
-	
-	/*
-	 * Creates an list of all the teams for future access
-	 */
-	private ArrayList<Team> teams = new ArrayList<Team>();
-	
+
 	/**
 	 * Loads the two teams
 	 */
@@ -57,10 +60,10 @@ public class MatchManager {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (i < Bukkit.getOnlinePlayers().length / 2) {
 				red.addMember(player.getName());
-				ChatManager.getInstance().msgPlayer(player, "You have been added to the British team.");
+				ChatManager.getInstance().msgPlayer(player, "You have been added to the Red team.");
 			} else {
 				blue.addMember(player.getName());
-				ChatManager.getInstance().msgPlayer(player, "You have been added to the German team.");
+				ChatManager.getInstance().msgPlayer(player, "You have been added to the Blue team.");
 			}
 			i++;
 		}

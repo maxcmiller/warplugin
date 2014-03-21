@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.maxcmiller.war.util.ConfigManager;
+import com.maxcmiller.war.managers.ConfigManager;
 
 public class Main extends JavaPlugin {
 	

@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-import com.maxcmiller.war.util.ConfigManager;
-import com.maxcmiller.war.util.MatchManager;
+import com.maxcmiller.war.managers.ConfigManager;
+import com.maxcmiller.war.managers.MatchManager;
 
 public class Team {
 
