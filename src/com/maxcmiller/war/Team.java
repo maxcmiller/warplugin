@@ -2,36 +2,57 @@ package com.maxcmiller.war;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
+import com.maxcmiller.war.util.ConfigManager;
 import com.maxcmiller.war.util.MatchManager;
 
 public class Team {
+
+	public MatchManager manager = MatchManager.getInstance();
 	
 	private ArrayList<String> members = new ArrayList<String>();
-	private String name;
+	private String teamName;
 	private ChatColor color;
 	private Location base;
 	
 	/**
-	 * Creates a team with a name and an instance of the TeamManager object
+	 * Creates a team from a name
 	 */
-	public Team(String name, MatchManager manager) {
-		this.name = name;
-		manager.getTeams().add(this);					// Adds the team to the list of teams in the manager
+	public Team(String name) {
+		this.teamName = name;
+		
+		/*
+		 * Loads the Location of the team's base/HQ
+		 */
 		base = new Location(
-				manager.main.getServer().getWorld(manager.main.getConfig().getString("world")), 
-				manager.main.getConfig().getDouble("bases." + this.getName() + ".x"), 
-				manager.main.getConfig().getDouble("bases." + this.getName() + ".y"), 
-				manager.main.getConfig().getDouble("bases." + this.getName() + ".z"));
+				Bukkit.getServer().getWorld(ConfigManager.getInstance().getConfig().getString("world")),
+				ConfigManager.getInstance().getConfig().getDouble(this.getName() + ".x"), 
+				ConfigManager.getInstance().getConfig().getDouble(this.getName() + ".y"), 
+				ConfigManager.getInstance().getConfig().getDouble(this.getName() + ".z"));
+		
+		/*
+		 * Loads the members of the team from the config
+		 */
+		this.members = (ArrayList<String>) ConfigManager.getInstance().getConfig().getStringList(this.getName() + ".members");
+		
+		/*
+		 * Creates the chat color of the team
+		 */
+		if (name.equals("red")) {
+			this.color = ChatColor.RED;
+		} else {
+			this.color = ChatColor.BLUE;
+		}
 	}
 	
 	/**
 	 * Gets the name of the team
 	 */
 	public String getName() {
-		return this.name;
+		return this.teamName;
 	}
 	
 	/**
@@ -39,6 +60,13 @@ public class Team {
 	 */
 	public ChatColor getColor() {
 		return this.color;
+	}
+	
+	/**
+	 * Sets the base/HQ of the team
+	 */
+	public void setBase(Location base) {
+		this.base = base;
 	}
 	
 	/**

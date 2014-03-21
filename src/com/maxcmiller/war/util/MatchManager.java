@@ -5,14 +5,20 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.maxcmiller.war.Main;
 import com.maxcmiller.war.Team;
 
 public class MatchManager {
 
-	public Main main;
-	public MatchManager(Main instance) {
-		this.main = instance;
+	private static MatchManager instance = new MatchManager();
+	
+	private Team blue = new Team("blue");
+	private Team red = new Team("red");
+	
+	/**
+	 * Gets the instance of this class
+	 */
+	public static MatchManager getInstance() {
+		return instance;
 	}
 	
 	/*
@@ -20,14 +26,16 @@ public class MatchManager {
 	 */
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	
-	/*
-	 * Creates two teams
+	/**
+	 * Loads the two teams
 	 */
-	private Team blue = new Team("blue", this);
-	private Team red = new Team("red", this);
+	public void loadTeams() {
+		teams.add(blue);
+		teams.add(red);
+	}
 	
 	/**
-	 * Gets the ArrayList of all current teams
+	 * Gets the ArrayList of the teams
 	 */
 	public ArrayList<Team> getTeams() {
 		return teams;
@@ -49,10 +57,10 @@ public class MatchManager {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (i < Bukkit.getOnlinePlayers().length / 2) {
 				red.addMember(player.getName());
-				main.chatManager.msgPlayer(player, "You have been added to the British team.");
+				ChatManager.getInstance().msgPlayer(player, "You have been added to the British team.");
 			} else {
 				blue.addMember(player.getName());
-				main.chatManager.msgPlayer(player, "You have been added to the German team.");
+				ChatManager.getInstance().msgPlayer(player, "You have been added to the German team.");
 			}
 			i++;
 		}

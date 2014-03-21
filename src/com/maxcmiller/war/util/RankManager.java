@@ -7,16 +7,20 @@ import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 
-import com.maxcmiller.war.Main;
 import com.maxcmiller.war.enums.Rank;
 
 public class RankManager {
+
+	private static RankManager instance = new RankManager();
 	
-	@SuppressWarnings("unused")
-	private Main main;
-	public RankManager(Main instance) {
-		this.main = instance;
-		
+	/**
+	 * Gets the instance of this class
+	 */
+	public static RankManager getInstance() {
+		return instance;
+	}
+	
+	public RankManager() {
 		/*
 		 * Places ranks and their respective chat colors in an map for future use
 		 */
