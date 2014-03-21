@@ -3,3 +3,7 @@ main: com.maxcmiller.war.Main
 version: 1.0
 description: >
              Todo
+commands:
+  e:
+    description: Displays commands
+    usage: /e

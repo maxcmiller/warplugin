@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.maxcmiller.war.managers.CommandManager;
 import com.maxcmiller.war.managers.ConfigManager;
 
 public class Main extends JavaPlugin {
@@ -21,5 +22,6 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		ConfigManager.getInstance().setup(this);
+		getCommand("e").setExecutor(CommandManager.getInstance());;
 	}
 }

@@ -5,11 +5,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.maxcmiller.war.GUI;
+
 public class CommandManager implements CommandExecutor {
 	
 	private static CommandManager instance = new CommandManager();
-	private RankManager rankManager = RankManager.getInstance();
-	private ChatManager chatManager = ChatManager.getInstance();
+	
+	private GUI gui = new GUI();
 	
 	/**
 	 * Gets the instance of this class
@@ -28,9 +30,19 @@ public class CommandManager implements CommandExecutor {
 			 * Command to open the GUI
 			 */
 			if (commandLabel.equalsIgnoreCase("e")) {
-				GuiManager.getInstance().createGui(rankManager.getRank(sender.getName()));
+				Player player = (Player) sender;
+				show(player);
+				player.sendMessage("You typed /e");
+				return true;
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Shows an specific inventory to a player according to their rank
+	 */
+	public void show(Player p) {
+		p.openInventory(gui.getInventory(RankManager.getInstance().getRank(p.getName())));
 	}
 }
