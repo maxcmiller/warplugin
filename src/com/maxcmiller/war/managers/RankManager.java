@@ -3,8 +3,11 @@ package com.maxcmiller.war.managers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
 import com.maxcmiller.war.Team;
 import com.maxcmiller.war.enums.Rank;
 
@@ -84,6 +87,32 @@ public class RankManager {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Promotes a player to the rank above them
+	 */
+	public void promote(Player p) {
+		Rank initialRank = this.getRank(p.getName());
+		if (initialRank.getValue() == Rank.values().length) {
+			// Makes sure the top rank can't be promoted
+			return;
+		}
+		int finalRankValue = initialRank.getValue() + 1;
+		this.setRank(p.getName(), initialRank.getRankByValue(finalRankValue));
+	}
+	
+	/**
+	 * Demotes a player to the rank below them
+	 */
+	public void demote(Player p) {
+		Rank initialRank = this.getRank(p.getName());
+		if (initialRank.getValue() == 1) {
+			// Makes sure the bottom rank can't be demoted
+			return;
+		}
+		int finalRankValue = initialRank.getValue() - 1;
+		this.setRank(p.getName(), initialRank.getRankByValue(finalRankValue));
 	}
 	
 	/**

@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.maxcmiller.war.managers.GuiManager;
+import com.maxcmiller.war.managers.RankManager;
 
 public class InventoryClick implements Listener {
 	
@@ -19,6 +20,10 @@ public class InventoryClick implements Listener {
 				/*
 				 * Do commands for each item
 				 */
+			}
+		}
+		if (e.getInventory().equals(guiManager.getGUI().promote)) {
+			if (RankManager.getInstance().getRank(e.getWhoClicked().getName()) != null) { // change
 				
 			}
 		}

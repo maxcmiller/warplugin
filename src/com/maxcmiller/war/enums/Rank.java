@@ -12,4 +12,14 @@ public enum Rank {
 	public int getValue() {
 		return value;
 	}
+	
+	public Rank getRankByValue(int i) {
+		Rank[] ranks = Rank.values();
+		for (Rank rank : ranks) {
+			if (rank.getValue() == i) {
+				return rank;
+			}
+		}
+		return null;
+	}
 }
