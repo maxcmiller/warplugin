@@ -4,21 +4,23 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import com.maxcmiller.war.GUI;
 
-public class CommandManager implements CommandExecutor {
+public class GuiManager implements CommandExecutor {
 	
-	private static CommandManager instance = new CommandManager();
+	private static GuiManager instance = new GuiManager();
 	
 	private RankManager rankManager = RankManager.getInstance();
 	
+	/*
+	 * Creates a the GUI class that holds the ranks' inventory data
+	 */
 	private GUI gui = new GUI();
 	
 	/**
 	 * Gets the instance of this class
 	 */
-	public static CommandManager getInstance() {
+	public static GuiManager getInstance() {
 		return instance;
 	}
 	
@@ -33,11 +35,18 @@ public class CommandManager implements CommandExecutor {
 			 */
 			if (commandLabel.equalsIgnoreCase("e")) {
 				Player player = (Player) sender;
-				showGUI(player);
+				player.getInventory().addItem(gui.commandBook);
 				return true;
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Returns the GUI object containing itemstacks and inventories
+	 */
+	public GUI getGUI() {
+		return gui;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package com.maxcmiller.war;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,7 +16,7 @@ import com.maxcmiller.war.enums.Rank;
 public class GUI {
 	
 	private Inventory privateInv, corporalInv, sergeantInv, generalInv;
-	private ItemStack medic, location, bombardment;
+	public ItemStack commandBook, medic, location, bombardment;
 	
 	public GUI() {
 		/*
@@ -28,6 +30,7 @@ public class GUI {
 		/*
 		 * Create all the items for the GUI commands
 		 */
+		commandBook = createNormalItem(Material.BOOK, ChatColor.GREEN + "Right click for commands");
 		medic = createPotion(new Potion(PotionType.INSTANT_HEAL), ChatColor.RED, "Request a medic");
 		location = createNormalItem(Material.COMPASS, ChatColor.YELLOW + "Check your current location");
 		bombardment = createNormalItem(Material.TNT, ChatColor.DARK_RED + "Bombard the enemy's current HQ");
@@ -76,5 +79,14 @@ public class GUI {
 			return generalInv;
 		}
 		return null;
+	}
+	
+	public ArrayList<Inventory> getAllInventories() {
+		ArrayList<Inventory> inventories = new ArrayList<Inventory>();
+		inventories.add(generalInv);
+		inventories.add(sergeantInv);
+		inventories.add(corporalInv);
+		inventories.add(privateInv);
+		return inventories;
 	}
 }
