@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.maxcmiller.war.managers.CommandManager;
 import com.maxcmiller.war.managers.ConfigManager;
+import com.maxcmiller.war.managers.MatchManager;
 
 public class Main extends JavaPlugin {
 	
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		ConfigManager.getInstance().setup(this);
-		getCommand("e").setExecutor(CommandManager.getInstance());;
+		getCommand("e").setExecutor(CommandManager.getInstance());
+		MatchManager.getInstance().setup();
 	}
 }

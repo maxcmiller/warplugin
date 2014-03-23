@@ -2,16 +2,19 @@ package com.maxcmiller.war.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
+import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-
+import com.maxcmiller.war.Team;
 import com.maxcmiller.war.enums.Rank;
 
 public class RankManager {
 
 	private static RankManager instance = new RankManager();
+	
+	private MatchManager manager = MatchManager.getInstance();
+	private ChatManager chatManager = ChatManager.getInstance();
+	private ConfigManager config = ConfigManager.getInstance();
 	
 	/**
 	 * Gets the instance of this class
@@ -35,23 +38,52 @@ public class RankManager {
 	 */
 	private HashMap<Rank, ChatColor> rankColors = new HashMap<Rank, ChatColor>();
 	
-	/*
-	 * HashMap storing player usernames (as the key) and their rank as an enum (as the value)
-	 */
-	private HashMap<String, Rank> playerRanks = new HashMap<String, Rank>();
-	
 	/**
 	 * Sets the rank of a player
 	 */
 	public void setRank(String target, Rank rank) {
-		playerRanks.put(target, rank);
+		
+		// If the player's rank isn't changing
+		if (this.getRank(target).getValue() == rank.getValue()) {
+			return;
+		}
+		
+		// If the player is being promoted
+		if (this.getRank(target).getValue() < rank.getValue()) {
+			chatManager.msgPlayer(Bukkit.getPlayerExact(target), "You have been promoted to " + rank.toString().toLowerCase() + "!");
+		}
+		
+		// If the player is being demoted
+		if (this.getRank(target).getValue() > rank.getValue()) {
+			chatManager.msgPlayer(Bukkit.getPlayerExact(target), "You have been demoted to " + rank.toString().toLowerCase() + "!");
+		}
+		
+		Team playerTeam = MatchManager.getInstance().getPlayerTeam(target);
+		
+		List<String> playersInInitialRank = config.getConfig().getStringList(playerTeam.getName() + ".ranks." + getRank(target).toString().toLowerCase());
+		playersInInitialRank.remove(target);
+		config.getConfig().set(playerTeam.getName() + ".ranks." + getRank(target).toString().toLowerCase(), playersInInitialRank);
+		config.saveConfig();
+		
+		List<String> playersInTargetRank = config.getConfig().getStringList(playerTeam.getName() + ".ranks." + rank.toString().toLowerCase());
+		playersInTargetRank.add(target);
+		config.getConfig().set(playerTeam.getName() + ".ranks." + rank.toString().toLowerCase(), playersInTargetRank);
+		config.saveConfig();
 	}
 	
 	/**
 	 * Gets the rank of a player
 	 */
 	public Rank getRank(String target) {
-		return playerRanks.get(target);
+		
+		Team playerTeam = manager.getPlayerTeam(target);
+		
+		for (Rank rank : Rank.values()) {
+			if (config.getConfig().getStringList(playerTeam.getName() + ".ranks." + rank.toString().toLowerCase()).contains(target)) {
+				return rank;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -65,15 +97,7 @@ public class RankManager {
 	 * Returns a list of players in a specified rank
 	 */
 	public ArrayList<String> getPlayersInRank(Rank rank) {
-		ArrayList<String> playersInRank = new ArrayList<String>();				// Creates a new list of people in the rank
-		Iterator<Entry<String, Rank>> it = playerRanks.entrySet().iterator();	// Creates an iterator to loop through the map
-	    while (it.hasNext()) {
-	        Entry<String, Rank> pairs = (Entry<String, Rank>) it.next();		// A new key/value pair from the iterator
-	        if (pairs.getValue().equals(rank)) {								// If the current pair's rank is the paramater
-	        	playersInRank.add(pairs.getKey().toString());					// Adds the pair's value (rank) to the list
-	        }
-	        it.remove();														// For safety
-	    }
-	    return playersInRank;
+		List<String> playersInRank = ConfigManager.getInstance().getConfig().getStringList((rank.toString().toLowerCase()));
+		return (ArrayList<String>) playersInRank;
 	}
 }

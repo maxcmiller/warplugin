@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.maxcmiller.war.Team;
+import com.maxcmiller.war.enums.Rank;
 
 public class MatchManager {
 
@@ -30,9 +31,9 @@ public class MatchManager {
 	}
 
 	/**
-	 * Loads the two teams
+	 * Sets up the match
 	 */
-	public void loadTeams() {
+	public void setup() {
 		teams.add(blue);
 		teams.add(red);
 	}
@@ -58,11 +59,14 @@ public class MatchManager {
 	public void placePlayersInTeams() {
 		int i = 0;
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			
+			Rank playerRank = RankManager.getInstance().getRank(player.getName());
+			
 			if (i < Bukkit.getOnlinePlayers().length / 2) {
-				red.addMember(player.getName());
+				red.addMember(player.getName(), playerRank);
 				ChatManager.getInstance().msgPlayer(player, "You have been added to the Red team.");
 			} else {
-				blue.addMember(player.getName());
+				blue.addMember(player.getName(), playerRank);
 				ChatManager.getInstance().msgPlayer(player, "You have been added to the Blue team.");
 			}
 			i++;
@@ -87,6 +91,15 @@ public class MatchManager {
 	public Team getPlayerTeam(String target) {
 		for (Team team : this.getTeams()) {
 			if (team.getMembers().contains(target)) {
+				return team;
+			}
+		}
+		return null;
+	}
+	
+	public Team getTeamByName(String teamName) {
+		for (Team team : this.getTeams()) {
+			if (team.getName().equals(teamName)) {
 				return team;
 			}
 		}

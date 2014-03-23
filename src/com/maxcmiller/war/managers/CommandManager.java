@@ -11,6 +11,8 @@ public class CommandManager implements CommandExecutor {
 	
 	private static CommandManager instance = new CommandManager();
 	
+	private RankManager rankManager = RankManager.getInstance();
+	
 	private GUI gui = new GUI();
 	
 	/**
@@ -31,8 +33,7 @@ public class CommandManager implements CommandExecutor {
 			 */
 			if (commandLabel.equalsIgnoreCase("e")) {
 				Player player = (Player) sender;
-				show(player);
-				player.sendMessage("You typed /e");
+				showGUI(player);
 				return true;
 			}
 		}
@@ -42,7 +43,7 @@ public class CommandManager implements CommandExecutor {
 	/**
 	 * Shows an specific inventory to a player according to their rank
 	 */
-	public void show(Player p) {
-		p.openInventory(gui.getInventory(RankManager.getInstance().getRank(p.getName())));
+	public void showGUI(Player p) {
+		p.openInventory(gui.getInventory(rankManager.getRank(p.getName())));
 	}
 }

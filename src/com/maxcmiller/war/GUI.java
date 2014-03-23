@@ -66,14 +66,15 @@ public class GUI {
 	}
 	
 	public Inventory getInventory(Rank rank) {
-		if (rank.equals(Rank.PRIVATE)) {
+		if (rank == Rank.PRIVATE) {
 			return privateInv;
-		} else if (rank.equals(Rank.CORPORAL)) {
+		} else if (rank == Rank.CORPORAL) {
 			return corporalInv;
-		} else if (rank.equals(Rank.SERGEANT)) {
+		} else if (rank == Rank.PRIVATE) {
 			return sergeantInv;
-		} else {
+		} else if (rank == Rank.GENERAL) {
 			return generalInv;
 		}
+		return null;
 	}
 }

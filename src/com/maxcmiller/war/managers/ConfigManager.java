@@ -11,7 +11,6 @@ public class ConfigManager {
 	private static ConfigManager instance = new ConfigManager();
 	
 	PluginDescriptionFile pdfFile;
-	FileConfiguration config;
 	Plugin plugin;
 	
 	/**
@@ -46,10 +45,18 @@ public class ConfigManager {
 	}
 	
 	/**
+	 * Sets a specified section in the config
+	 */
+	public void set(String path, Object value) {
+		this.getConfig().set(path, value);
+		this.saveConfig();
+	}
+	
+	/**
 	 * Returns the plugin's configuration file
 	 */
 	public FileConfiguration getConfig() {
-		return config;
+		return plugin.getConfig();
 	}
 	
 	/**

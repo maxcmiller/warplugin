@@ -3,11 +3,19 @@ blue:
   x: 1
   y: 1
   z: 1
-  members:
-    - Flamo_Z
+  ranks:
+    private:
+    corporal:
+    sergeant:
+    general:
+      - Flamo_Z
 red:
   x: 1
   y: 1
   z: 1
-  members:
-    - einkelflugle
+  ranks:
+    private:
+    corporal:
+      - einkelflugle
+    sergeant:
+    general:
