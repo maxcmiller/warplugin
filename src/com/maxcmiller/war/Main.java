@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.maxcmiller.war.listeners.InventoryClick;
 import com.maxcmiller.war.listeners.PlayerInteract;
 import com.maxcmiller.war.managers.GuiManager;
 import com.maxcmiller.war.managers.ConfigManager;
@@ -24,12 +25,13 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
-		Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
-		
 		ConfigManager.getInstance().setup(this);
+		
+		MatchManager.getInstance().setup();
 		
 		getCommand("e").setExecutor(GuiManager.getInstance());
 		
-		MatchManager.getInstance().setup();
+		Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new InventoryClick(), this);
 	}
 }

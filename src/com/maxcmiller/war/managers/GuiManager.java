@@ -1,9 +1,12 @@
 package com.maxcmiller.war.managers;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import com.maxcmiller.war.GUI;
 
 public class GuiManager implements CommandExecutor {
@@ -38,6 +41,8 @@ public class GuiManager implements CommandExecutor {
 				player.getInventory().addItem(gui.commandBook);
 				return true;
 			}
+		} else {
+			Bukkit.getLogger().info(ChatColor.RED + "Command cannot be used from console.");
 		}
 		return true;
 	}
@@ -50,7 +55,7 @@ public class GuiManager implements CommandExecutor {
 	}
 	
 	/**
-	 * Shows an specific inventory to a player according to their rank
+	 * Shows the inventory of the players rank, containing all the commands that their rank can use
 	 */
 	public void showGUI(Player p) {
 		p.openInventory(gui.getInventory(rankManager.getRank(p.getName())));

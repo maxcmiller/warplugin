@@ -44,21 +44,6 @@ public class GUI {
 		bombardment = createNormalItem(Material.TNT, ChatColor.DARK_RED + "Bombard the enemy's current HQ");
 		promotePlayer = createNormalItem(Material.ANVIL, ChatColor.GREEN + "Promote a player");
 		
-		
-		/*
-		 * Creates a skull to represent each player and adds it to an inventory
-		 */
-		for (Player p : Bukkit.getOnlinePlayers()) {
-			ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-			SkullMeta sm = (SkullMeta) is.getItemMeta();
-			sm.setDisplayName(p.getName());
-			List<String> lore = new ArrayList<String>();
-			lore.add("Rank: " + rankManager.getColor(rankManager.getRank(p.getName())) + rankManager.getRank(p.getName()).toString().toLowerCase());
-			sm.setLore(lore);
-			is.setItemMeta(sm);
-			promote.addItem(is);
-		}
-		
 		/*
 		 * Adds the items to the GUI inventory screen according to the rank
 		 */
@@ -120,5 +105,42 @@ public class GUI {
 		inventories.add(corporalInv);
 		inventories.add(privateInv);
 		return inventories;
+	}
+	
+	/**
+	 * Returns an inventory/GUI for the requested player
+	 * @return Be careful: can return null!
+	 */
+	public Inventory getPromoteInventory(Player player) {
+		
+		// Clears the promote inventory for re-use
+		promote.clear();
+		
+		// Makes sure the player that is requesting the promote inventory can actually promote someone, ie. is high enough rank
+		Rank senderRank = rankManager.getRank(player.getName());
+		if (!(senderRank == Rank.GENERAL || senderRank == Rank.SERGEANT)) {
+			return null;
+		}
+		
+		// Stores the sender rank value as an integer
+		int senderRankValue = senderRank.getValue();
+		
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			
+			// If the targeted player is low enough to be promoted by the sender player
+			if (rankManager.getRank(p.getName()).getValue() <= senderRankValue - 2) {
+				
+				// Create a new itemstack with their head as displayName and their rank as lore
+				ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+				SkullMeta sm = (SkullMeta) is.getItemMeta();
+				List<String> lore = new ArrayList<String>();
+				lore.add("Rank: " + rankManager.getColor(rankManager.getRank(p.getName())) + rankManager.getRank(p.getName()).toString().toLowerCase());
+				sm.setLore(lore);
+				sm.setDisplayName(p.getName());
+				is.setItemMeta(sm);
+				promote.addItem(is);
+			}
+		}
+		return promote;
 	}
 }
