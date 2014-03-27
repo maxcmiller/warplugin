@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import com.maxcmiller.war.managers.GuiManager;
 
-public class InventoryClick implements Listener {
+public class GuiClick implements Listener {
 	
 	GuiManager guiManager = GuiManager.getInstance();
 	

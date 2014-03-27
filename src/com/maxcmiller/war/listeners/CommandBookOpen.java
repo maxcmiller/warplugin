@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.maxcmiller.war.managers.GuiManager;
 
-public class PlayerInteract implements Listener {
+public class CommandBookOpen implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
@@ -16,7 +16,7 @@ public class PlayerInteract implements Listener {
 			if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
 			if (e.getItem().getType() == Material.BOOK) {
 				if (e.getItem().getItemMeta().getDisplayName().equals(GuiManager.getInstance().getGUI().commandBook.getItemMeta().getDisplayName())) {
-					GuiManager.getInstance().showGUI(e.getPlayer());
+					GuiManager.getInstance().showCommandsGui(e.getPlayer());
 					e.setCancelled(true);
 				}
 			}

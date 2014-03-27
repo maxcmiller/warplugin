@@ -1,5 +1,7 @@
 package com.maxcmiller.war.managers;
 
+import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,11 +13,23 @@ public class ChatManager {
 	
 	private static ChatManager instance = new ChatManager();
 	
+	/*
+	 * Creates logger object to print to console
+	 */
+	public final Logger logger = Logger.getLogger("Minecraft");
+	
 	/**
 	 * Gets the instance of this class
 	 */
 	public static ChatManager getInstance() {
 		return instance;
+	}
+	
+	/**
+	 * Logs a message to the console
+	 */
+	public void log(String msg) {
+		logger.info("[War] " + msg);
 	}
 	
 	/**

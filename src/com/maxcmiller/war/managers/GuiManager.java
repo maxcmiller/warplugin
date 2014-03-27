@@ -56,7 +56,7 @@ public class GuiManager implements CommandExecutor {
 	/**
 	 * Shows the inventory of the players rank, containing all the commands that their rank can use
 	 */
-	public void showGUI(Player p) {
+	public void showCommandsGui(Player p) {
 		p.openInventory(gui.getInventory(rankManager.getRank(p.getName())));
 	}
 }
