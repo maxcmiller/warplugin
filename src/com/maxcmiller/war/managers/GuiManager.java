@@ -1,7 +1,6 @@
 package com.maxcmiller.war.managers;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,7 +41,7 @@ public class GuiManager implements CommandExecutor {
 				return true;
 			}
 		} else {
-			Bukkit.getLogger().info(ChatColor.RED + "Command cannot be used from console.");
+			Bukkit.getLogger().info("Command cannot be used from console.");
 		}
 		return true;
 	}
